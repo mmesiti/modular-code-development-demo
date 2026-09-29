@@ -9,11 +9,13 @@ dependencies:
   - bzip2=1.0.8=hda65f42_10
   - ca-certificates=2026.7.22=hbd8a1cb_0
   - cairo=1.18.6=h3c89d7e_0
+  - colorama=0.4.6=pyhd8ed1ab_1
   - contourpy=1.4.0=py314h5383ef5_1
   - cycler=0.12.1=pyhcf101f3_2
   - cyrus-sasl=2.1.28=hac629b4_1
   - dbus=1.16.2=he8c428d_2
   - double-conversion=3.4.0=hecca717_0
+  - exceptiongroup=1.3.1=pyhd8ed1ab_0
   - font-ttf-dejavu-sans-mono=2.37=hab24e00_0
   - font-ttf-inconsolata=3.000=h77eed37_0
   - font-ttf-source-code-pro=2.038=h77eed37_0
@@ -26,6 +28,7 @@ dependencies:
   - fribidi=1.0.17=h7cc23a3_0
   - graphite2=1.3.15=h54a6638_1
   - icu=78.3=py310h44b86e0_2
+  - iniconfig=2.3.0=pyhd8ed1ab_0
   - keyutils=1.6.3=h7cc23a3_1
   - kiwisolver=1.5.1=py314h5383ef5_3
   - krb5=1.22.2=hbc21106_2
@@ -104,9 +107,12 @@ dependencies:
   - pillow=12.3.0=py314h50bfbbb_4
   - pip=26.2.1=pyh145f28c_0
   - pixman=0.46.4=h54a6638_3
+  - pluggy=1.6.0=pyhf9edf01_1
   - pthread-stubs=0.4=h7cc23a3_1004
+  - pygments=2.21.0=pyhcf101f3_0
   - pyparsing=3.3.3=pyh5ded981_0
   - pyside6=6.11.2=py314h574d94f_1
+  - pytest=9.1.1=pyhc364b38_2
   - python=3.14.7=hcd007b5_106_cp314
   - python-dateutil=2.9.0.post0=pyhe01879c_2
   - python_abi=3.14=9_cp314
@@ -115,7 +121,9 @@ dependencies:
   - readline=8.3=hd6e31c0_1
   - six=1.17.0=pyhe01879c_1
   - tk=8.6.13=noxft_h1df4ec4_4
+  - tomli=2.4.1=pyhcf101f3_0
   - tornado=6.5.10=py314h89acca1_0
+  - typing_extensions=4.16.0=pyhcf101f3_0
   - tzdata=2026c=h151e31d_0
   - wayland=1.26.0=hc1c935e_2
   - xcb-util=0.4.1=h4f16b4b_2
@@ -143,4 +151,4 @@ dependencies:
   - xorg-xorgproto=2025.1=hebe6cf0_3
   - zlib-ng=2.3.3=hce19668_1
   - zstd=1.5.7=hb78ec9c_7
-
+prefix: /home/michele/miniforge3/envs/weather-analysis
