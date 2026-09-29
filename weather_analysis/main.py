@@ -21,7 +21,7 @@ def read_and_index_data(filename):
     # set 'recorded_at' as index for convenience
     data = data.set_index("recorded_at")
     return data
-    
+
  
 
 def make_temperature_plot(january):
@@ -38,25 +38,22 @@ def make_temperature_plot(january):
     mean_temp = arithmetic_mean(january["air_temperature_celsius"].values)
     
     # mean temperature (as horizontal dashed line)
-    ax.axhline(
-        y=mean_temp,
-        label=f"mean air temperature (C): {mean_temp:.1f}",
-        color="red",
-        linestyle="--",
-    )
+    def add_axhline(ax,mean_temp):
+        ax.axhline(
+            y=mean_temp,
+            label=f"mean air temperature (C): {mean_temp:.1f}",
+            color="red",
+            linestyle="--",
+        )
     
-    ax.set_title("air temperature (C) at Helsinki airport")
-    ax.set_xlabel("date and time")
-    ax.set_ylabel("air temperature (C)")
-    ax.legend()
-    ax.grid(True)
+    make_timeseries_plot(january,
+                         column="air_temperature_celsius",
+                         label="air temperature (C)",
+                         color="red",
+                         title="air temperature (C) at Helsinki airport",
+                         filename="2024-01-temperature.png",
+                         ax_manipulation = lambda ax: add_axhline(ax,mean_temp))
     
-    # format x-axis for better date display
-    fig.autofmt_xdate()
-    
-    fig.savefig("2024-01-temperature.png")
-    
-
 def make_precipitation_plot(january):
     make_timeseries_plot(january,
                          column="precipitation_mm",
@@ -67,7 +64,7 @@ def make_precipitation_plot(january):
     
 
 
-def make_timeseries_plot(january,column,label,color,title,filename):
+def make_timeseries_plot(january,column,label,color,title,filename,ax_manipulation = lambda ax: ax):
     fig, ax = plt.subplots()
     
     ax.plot(
@@ -76,6 +73,8 @@ def make_timeseries_plot(january,column,label,color,title,filename):
         label=label,
         color=color,
     )
+
+    ax_manipulation(ax)
     
     ax.set_title(title)
     ax.set_xlabel("date and time")
