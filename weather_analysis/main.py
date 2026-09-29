@@ -2,9 +2,9 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-def main():
+def main(filename):
     # read data
-    data = pd.read_csv("weather_data.csv")
+    data = pd.read_csv(filename)
     
     # combine 'date' and 'time' into a single column 'recorded_at' as type datetime
     data["recorded_at"] = pd.to_datetime(data["date"] + " " + data["time"])
@@ -69,4 +69,4 @@ def main():
     fig.savefig("2024-01-precipitation.png")
 
 if __name__ == "__main__":
-    main()
+    main("weather_data.csv")
