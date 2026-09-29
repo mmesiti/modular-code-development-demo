@@ -58,26 +58,37 @@ def make_temperature_plot(january):
     
 
 def make_precipitation_plot(january):
+    make_timeseries_plot(january,
+                         column="precipitation_mm",
+                         label="precipitation (mm)",
+                         color="blue",
+                         title="precipitation (mm) at Helsinki airport",
+                         filename="2024-01-precipitation.png")
+    
+
+
+def make_timeseries_plot(january,column,label,color,title,filename):
     fig, ax = plt.subplots()
     
-    # precipitation time series
     ax.plot(
         january.index,
-        january["precipitation_mm"],
-        label="precipitation (mm)",
-        color="blue",
+        january[column],
+        label=label,
+        color=color,
     )
     
-    ax.set_title("precipitation (mm) at Helsinki airport")
+    ax.set_title(title)
     ax.set_xlabel("date and time")
-    ax.set_ylabel("precipitation (mm)")
+    ax.set_ylabel(label)
     ax.legend()
     ax.grid(True)
     
     # format x-axis for better date display
     fig.autofmt_xdate()
+
+    fig.savefig(filename)
     
-    fig.savefig("2024-01-precipitation.png")
+    
 
 
 def arithmetic_mean(values):
