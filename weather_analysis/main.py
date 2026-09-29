@@ -3,6 +3,15 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 def main(filename):
+
+    data = read_and_index_data(filename)
+    # keep only january data using datetime period indexing
+    january = data.loc["2024-01"]
+
+    make_temperature_plot(january)
+    make_precipitation_plot(january)
+
+def read_and_index_data(filename):
     # read data
     data = pd.read_csv(filename)
     
@@ -11,10 +20,11 @@ def main(filename):
     
     # set 'recorded_at' as index for convenience
     data = data.set_index("recorded_at")
+    return data
     
-    # keep only january data using datetime period indexing
-    january = data.loc["2024-01"]
-    
+ 
+
+def make_temperature_plot(january):
     fig, ax = plt.subplots()
     
     # temperature time series
@@ -47,6 +57,8 @@ def main(filename):
     
     fig.savefig("2024-01-temperature.png")
     
+
+def make_precipitation_plot(january):
     fig, ax = plt.subplots()
     
     # precipitation time series
@@ -67,6 +79,7 @@ def main(filename):
     fig.autofmt_xdate()
     
     fig.savefig("2024-01-precipitation.png")
+
 
 if __name__ == "__main__":
     main("weather_data.csv")
