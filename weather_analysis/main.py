@@ -21,40 +21,15 @@ def read_and_index_data(filename):
     # set 'recorded_at' as index for convenience
     data = data.set_index("recorded_at")
     return data
-    
- 
 
 def make_temperature_plot(january):
-    fig, ax = plt.subplots()
-    
-    # temperature time series
-    ax.plot(
-        january.index,
-        january["air_temperature_celsius"],
-        label="air temperature (C)",
-        color="red",
-    )
-    
-    mean_temp = arithmetic_mean(january["air_temperature_celsius"].values)
-    
-    # mean temperature (as horizontal dashed line)
-    ax.axhline(
-        y=mean_temp,
-        label=f"mean air temperature (C): {mean_temp:.1f}",
-        color="red",
-        linestyle="--",
-    )
-    
-    ax.set_title("air temperature (C) at Helsinki airport")
-    ax.set_xlabel("date and time")
-    ax.set_ylabel("air temperature (C)")
-    ax.legend()
-    ax.grid(True)
-    
-    # format x-axis for better date display
-    fig.autofmt_xdate()
-    
-    fig.savefig("2024-01-temperature.png")
+    make_timeseries_plot(january,
+                         column="air_temperature_celsius",
+                         label="air temperature (C)",
+                         color="red",
+                         title="air temperature (C) at Helsinki airport",
+                         filename="2024-01-temperature.png",
+                         show_mean=True)
     
 
 def make_precipitation_plot(january):
@@ -67,7 +42,7 @@ def make_precipitation_plot(january):
     
 
 
-def make_timeseries_plot(january,column,label,color,title,filename):
+def make_timeseries_plot(january,column,label,color,title,filename,show_mean=False):
     fig, ax = plt.subplots()
     
     ax.plot(
@@ -76,6 +51,18 @@ def make_timeseries_plot(january,column,label,color,title,filename):
         label=label,
         color=color,
     )
+
+    if show_mean:
+        mean_temp = january[column].mean()
+    
+        # mean value (as horizontal dashed line)
+        ax.axhline(
+                y=mean_value,
+                label=f"mean {label}: {mean_value:.1f}",
+                color=color,
+                linestyle="--",
+            )
+        
     
     ax.set_title(title)
     ax.set_xlabel("date and time")
