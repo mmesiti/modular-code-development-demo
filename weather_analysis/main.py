@@ -35,8 +35,7 @@ def make_temperature_plot(january):
         color="red",
     )
     
-    values = january["air_temperature_celsius"].values
-    mean_temp = sum(values) / len(values)
+    mean_temp = arithmetic_mean(january["air_temperature_celsius"].values)
     
     # mean temperature (as horizontal dashed line)
     ax.axhline(
@@ -80,6 +79,9 @@ def make_precipitation_plot(january):
     
     fig.savefig("2024-01-precipitation.png")
 
+
+def arithmetic_mean(values):
+    return sum(values)/len(values)
 
 if __name__ == "__main__":
     main("weather_data.csv")
