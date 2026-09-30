@@ -53,7 +53,7 @@ def make_timeseries_plot(january,column,label,color,title,filename,show_mean=Fal
     )
 
     if show_mean:
-        mean_temp = january[column].mean()
+        mean_value = january[column].mean()
     
         # mean value (as horizontal dashed line)
         ax.axhline(
