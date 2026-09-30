@@ -5,16 +5,18 @@ import matplotlib.pyplot as plt
 def main(data_filename):
 
     data = read_and_index_data(data_filename)
-    
-    periods = ["2024-01","2024-02","2024-03"]
-  
+    iterate_on_periods(
+        data,
+        plot_function=make_temperature_and_precipitation_plots,
+        periods = ["2024-01","2024-02","2024-03"])
+
+
+def iterate_on_periods(data,plot_function, periods, get_period_data= lambda d,p: d.loc[p]):
     for period in periods:    
-        month_data = data.loc[period]
-        make_temperature_plot(month_data,period)
-        make_precipitation_plot(month_data,period)
+        month_data = get_period_data(data,period)
+        plot_function(month_data,period)
 
     
-
 def read_and_index_data(filename):
     # read data
     data = pd.read_csv(filename)
@@ -25,6 +27,11 @@ def read_and_index_data(filename):
     # set 'recorded_at' as index for convenience
     data = data.set_index("recorded_at")
     return data
+
+def make_temperature_and_precipitation_plots(month_data,period):
+    make_temperature_plot(month_data,period)
+    make_precipitation_plot(month_data,period)
+
 
 def make_temperature_plot(month_data,period):
     make_timeseries_plot(month_data,
