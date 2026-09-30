@@ -2,14 +2,20 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-def main(filename):
+def main(data_filename):
 
-    data = read_and_index_data(filename)
+    data = read_and_index_data(data_filename)
     # keep only january data using datetime period indexing
-    january = data.loc["2024-01"]
 
-    make_temperature_plot(january)
-    make_precipitation_plot(january)
+
+    periods = ["2024-01","2024-02","2024-03"]
+  
+    for period in periods:    
+        month_data = data.loc[period]
+        make_temperature_plot(month_data,period)
+        make_precipitation_plot(month_data,period)
+
+    
 
 def read_and_index_data(filename):
     # read data
@@ -22,38 +28,38 @@ def read_and_index_data(filename):
     data = data.set_index("recorded_at")
     return data
 
-def make_temperature_plot(january):
-    make_timeseries_plot(january,
+def make_temperature_plot(month_data,period):
+    make_timeseries_plot(month_data,
                          column="air_temperature_celsius",
                          label="air temperature (C)",
                          color="red",
                          title="air temperature (C) at Helsinki airport",
-                         filename="2024-01-temperature.png",
+                         filename=f"{period}-temperature.png",
                          show_mean=True)
     
 
-def make_precipitation_plot(january):
-    make_timeseries_plot(january,
+def make_precipitation_plot(month_data,period):
+    make_timeseries_plot(month_data,
                          column="precipitation_mm",
                          label="precipitation (mm)",
                          color="blue",
                          title="precipitation (mm) at Helsinki airport",
-                         filename="2024-01-precipitation.png")
+                         filename=f"{period}-precipitation.png")
     
 
 
-def make_timeseries_plot(january,column,label,color,title,filename,show_mean=False):
+def make_timeseries_plot(period_data,column,label,color,title,filename,show_mean=False):
     fig, ax = plt.subplots()
     
     ax.plot(
-        january.index,
-        january[column],
+        period_data.index,
+        period_data[column],
         label=label,
         color=color,
     )
 
     if show_mean:
-        mean_temp = january[column].mean()
+        mean_temp = period_data[column].mean()
     
         # mean temperature (as horizontal dashed line)
         ax.axhline(
