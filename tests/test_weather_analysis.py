@@ -24,11 +24,30 @@ def test_pngs_produced_periods_by_args():
     for filename in outputs:
         if path.exists(filename):
             remove(filename)
-    run(["python","./weather_analysis/main.py","./tests/reference_data/weather_data.csv"]+periods)
+    run(["python","./weather_analysis/main.py","./tests/reference_data/weather_data.csv",",".join(periods)])
     for filename in outputs:
         assert path.exists(filename)
-    
 
+def test_single_pngs_produced_when_single_plot_active():
+    periods = ["2024-01","2024-02","2024-03"]
+    outputs = [f"{period}-combined.png" for period in periods]
+    for filename in outputs:
+        if path.exists(filename):
+            remove(filename)
+    main("./tests/reference_data/weather_data.csv",single_plots=True)
+    for filename in outputs:
+        assert path.exists(filename)
+
+def test_pngs_single_png_produced_when_single_plot_by_args():
+    periods = ["2024-05","2024-07"]
+    outputs = [f"{period}-combined.png" for period in periods]
+    for filename in outputs:
+        if path.exists(filename):
+            remove(filename)
+    run(["python","./weather_analysis/main.py","./tests/reference_data/weather_data.csv",",".join(periods), "--single-plots"])
+    for filename in outputs:
+        assert path.exists(filename)
+        
 
 def test_output_bit_equality():
     outputs = ["2024-01-precipitation.png", "2024-01-temperature.png"]

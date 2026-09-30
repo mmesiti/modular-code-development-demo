@@ -1,5 +1,8 @@
 # Weather data Analysis
 
+Plots temperature and precipitation data 
+form a csv file containing said data,
+for a given list of months.
 
 ## Installation
 
@@ -12,17 +15,13 @@ Activate the environment.
 
 ## Usage
 
-Make sure that a file with name `weather_data.csv`
-is present in the current directory. 
-
-Then:
+Try
 
 ```bash
-python ./weather_analysis/main.py
+./weather_analysis/main.py --help
 ```
 
-will produce some plots.
-
+to learn more.
 
 ## Testing
 
