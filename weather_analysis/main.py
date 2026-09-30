@@ -1,14 +1,15 @@
 #!/usr/bin/env python
 import pandas as pd
 import matplotlib.pyplot as plt
+from sys import argv
 
-def main(data_filename):
+def main(data_filename,periods=["2024-01","2024-02","2024-03"]):
 
     data = read_and_index_data(data_filename)
     iterate_on_periods(
         data,
         plot_function=make_temperature_and_precipitation_plots,
-        periods = ["2024-01","2024-02","2024-03"])
+        periods = periods)
 
 
 def iterate_on_periods(data,plot_function, periods, get_period_data= lambda d,p: d.loc[p]):
@@ -93,4 +94,4 @@ def arithmetic_mean(values):
     return sum(values)/len(values)
 
 if __name__ == "__main__":
-    main("weather_data.csv")
+    main(argv[1], periods=argv[2:])

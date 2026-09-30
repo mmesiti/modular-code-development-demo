@@ -2,7 +2,9 @@ from os import path, remove
 import filecmp
 from weather_analysis.main import main, arithmetic_mean, iterate_on_periods
 import pytest
+from subprocess import run
 
+    
 def test_pngs_produced():
     periods = ["2024-01","2024-02","2024-03"]
     plot_types = ["precipitation","temperature"]
@@ -13,6 +15,19 @@ def test_pngs_produced():
     main("./tests/reference_data/weather_data.csv")
     for filename in outputs:
         assert path.exists(filename)
+
+def test_pngs_produced_periods_by_args():
+    periods = ["2024-05","2024-07"]
+    plot_types = ["precipitation","temperature"]
+
+    outputs = [f"{period}-{plot_type}.png" for period in periods for plot_type in plot_types]
+    for filename in outputs:
+        if path.exists(filename):
+            remove(filename)
+    run(["python","./weather_analysis/main.py","./tests/reference_data/weather_data.csv"]+periods)
+    for filename in outputs:
+        assert path.exists(filename)
+    
 
 
 def test_output_bit_equality():
