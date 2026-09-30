@@ -2,14 +2,18 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-def main(filename):
+def main(data_filename):
 
-    data = read_and_index_data(filename)
-    # keep only january data using datetime period indexing
-    january = data.loc["2024-01"]
+    data = read_and_index_data(data_filename)
 
-    make_temperature_plot(january)
-    make_precipitation_plot(january)
+    periods = ["2024-01","2024-02","2024-03"]
+  
+    for period in periods:    
+        month_data = data.loc[period]
+        make_temperature_plot(month_data,period)
+        make_precipitation_plot(month_data,period)
+
+    
 
 def read_and_index_data(filename):
     # read data
@@ -21,65 +25,65 @@ def read_and_index_data(filename):
     # set 'recorded_at' as index for convenience
     data = data.set_index("recorded_at")
     return data
-    
- 
 
-def make_temperature_plot(january):
+def make_temperature_plot(month_data,period):
+    make_timeseries_plot(month_data,
+                         column="air_temperature_celsius",
+                         label="air temperature (C)",
+                         color="red",
+                         title="air temperature (C) at Helsinki airport",
+                         filename=f"{period}-temperature.png",
+                         show_mean=True)
+    
+
+def make_precipitation_plot(month_data,period):
+    make_timeseries_plot(month_data,
+                         column="precipitation_mm",
+                         label="precipitation (mm)",
+                         color="blue",
+                         title="precipitation (mm) at Helsinki airport",
+                         filename=f"{period}-precipitation.png")
+    
+
+
+def make_timeseries_plot(period_data,column,label,color,title,filename,show_mean=False):
     fig, ax = plt.subplots()
     
-    # temperature time series
     ax.plot(
-        january.index,
-        january["air_temperature_celsius"],
-        label="air temperature (C)",
-        color="red",
+        period_data.index,
+        period_data[column],
+        label=label,
+        color=color,
     )
+
+    if show_mean:
+        mean_temp = period_data[column].mean()
     
-    values = january["air_temperature_celsius"].values
-    mean_temp = sum(values) / len(values)
+        # mean temperature (as horizontal dashed line)
+        ax.axhline(
+                y=mean_temp,
+                label=f"mean {label}: {mean_temp:.1f}",
+                color=color,
+                linestyle="--",
+            )
+        
     
-    # mean temperature (as horizontal dashed line)
-    ax.axhline(
-        y=mean_temp,
-        label=f"mean air temperature (C): {mean_temp:.1f}",
-        color="red",
-        linestyle="--",
-    )
-    
-    ax.set_title("air temperature (C) at Helsinki airport")
+    ax.set_title(title)
     ax.set_xlabel("date and time")
-    ax.set_ylabel("air temperature (C)")
+    ax.set_ylabel(label)
     ax.legend()
     ax.grid(True)
     
     # format x-axis for better date display
     fig.autofmt_xdate()
+
+    fig.savefig(filename)
     
-    fig.savefig("2024-01-temperature.png")
     
 
-def make_precipitation_plot(january):
-    fig, ax = plt.subplots()
-    
-    # precipitation time series
-    ax.plot(
-        january.index,
-        january["precipitation_mm"],
-        label="precipitation (mm)",
-        color="blue",
-    )
-    
-    ax.set_title("precipitation (mm) at Helsinki airport")
-    ax.set_xlabel("date and time")
-    ax.set_ylabel("precipitation (mm)")
-    ax.legend()
-    ax.grid(True)
-    
-    # format x-axis for better date display
-    fig.autofmt_xdate()
-    
-    fig.savefig("2024-01-precipitation.png")
 
+def arithmetic_mean(values):
+    return sum(values)/len(values)
 
 if __name__ == "__main__":
     main("weather_data.csv")
